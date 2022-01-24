@@ -123,16 +123,43 @@
 				<div class="convert-image-1">
 					<span class="image-title"> Converted Webp 100% (by imagemagick tool) </span>
 					<span class="image-title file-size">  </span>
-					<img class="image-container"src= "images/banner/by-cmd/banner_i3_converted.webp" alt="bmw-i3 : Converted Webp 100% (by imagemagick tool)" ></img>
+					<img class="image-container"src= "images/banner/by-cmd/banner_i3_100.webp" alt="banner_i3 : Converted Webp 100% (by imagemagick tool)" ></img>
 				</div>
 			
 				<div class="convert-image-diff">
 					<span class="image-title"> Diff </span>
 					<span class="image-title file-size">  </span>
-					<img class="image-container"src= "images/banner/by-cmd-diff/banner_i3_converted_diff.png" alt="bmw-i3 : Converted Webp 100% (by imagemagick tool) Diff" ></img>
+					<img class="image-container"src= "images/banner/by-cmd-diff/banner_i3_100_diff.png" alt="banner_i3 : Converted Webp 100% (by imagemagick tool) Diff" ></img>
 				</div>
 			</div>
-
+			
+			<div class="convert-image">
+				<div class="convert-image-1">
+					<span class="image-title"> Converted Webp 90% (by imagemagick tool) </span>
+					<span class="image-title file-size">  </span>
+					<img class="image-container"src= "images/banner/by-cmd/banner_i3_90.webp" alt="banner_i3 : Converted Webp 90% (by imagemagick tool)" ></img>
+				</div>
+				
+				<div class="convert-image-diff">
+					<span class="image-title"> Diff </span>
+					<span class="image-title file-size">  </span>
+					<img class="image-container"src= "images/banner/by-cmd-diff/banner_i3_90_diff.png" alt="banner_i3 : Converted Webp 90% (by imagemagick tool) Diff" ></img>
+				</div>
+			</div>
+			
+			<div class="convert-image">
+				<div class="convert-image-1">
+					<span class="image-title"> Converted Webp 75% (by imagemagick tool) </span>
+					<span class="image-title file-size">  </span>
+					<img class="image-container"src= "images/banner/by-cmd/banner_i3_75.webp" alt="banner_i3 : Converted Webp 75% (by imagemagick tool)"></img>
+				</div>
+				
+				<div class="convert-image-diff">
+					<span class="image-title"> Diff </span>
+					<span class="image-title file-size">  </span>
+					<img class="image-container"src= "images/banner/by-cmd-diff/banner_i3_75_diff.png" alt="banner_i3 : Converted Webp 75% (by imagemagick tool) Diff" ></img>
+				</div>
+			</div>
 		</div>
 
 		<div class="model-title">
@@ -557,6 +584,7 @@
 				modal.style.display = "none";
 			}	
 			
+			
 			document.addEventListener("DOMContentLoaded", function(event) {
 			// Your code to run since DOM is loaded and ready
 				calculateImageSize();
@@ -585,19 +613,53 @@
 				}			
 			}
 			
-			imageLoaded = async (e) => {
-				var img = e;
+			imageLoaded = async(e) => {
+				var img = e.currentTarget;
 				var url = img.src;
-				console.log("ImageLaoded");
+				console.log("img ",img);
+				console.log("ImageLaoded " , url);
 				if (url && url.length > 0) {
-					const fileImg = await fetch(url).then(r => r.blob());
-					const fileSize = fileImg.size();
-					var file_size_element = img[i].parentNode.querySelector('.file-size')
+					const fileImg = await fetch(url,{mode: 'no-cors'}).then(r => r.blob());
+					var fileSize = fileImg.size();
+					var file_size_element = img[i].parentNode.querySelector('.file-size');
 					if (file_size_element) {
 						file_size_element.innerText=fileSize;
 					}
+
 				}
 			};
+			
+			
+			imageLoaded1 = (e) => {
+				var img = e.currentTarget;
+				var url = img.src;
+				console.log("img ",img);
+				console.log("ImageLaoded " , url);
+				if (url && url.length > 0) {
+					//const fileImg = await fetch(url).then(r => r.blob());
+					//fetchLocal(url);
+					
+					var xhr = new XMLHttpRequest
+						xhr.onload = function() {
+						//resolve(new Response(xhr.responseText, {status: xhr.status}))
+							var fileImg = xhr.responseText;
+							const fileSize = fileImg.size();
+							console.log("URL => " , fileSize);
+							var file_size_element = img[i].parentNode.querySelector('.file-size')
+							if (file_size_element) {
+								file_size_element.innerText=fileSize;
+							}
+
+						}
+					xhr.onerror = function() {
+					  //reject(new TypeError('Local request failed'))
+					  console.log("URL => " , url, " Error!");
+					}
+					xhr.open('GET', url);
+					xhr.send(null);
+				}
+			};
+
 			
 		</script>
 	</body>
