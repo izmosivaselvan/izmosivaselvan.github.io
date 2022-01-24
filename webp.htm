@@ -620,7 +620,7 @@
 				console.log("ImageLaoded " , url);
 				if (url && url.length > 0) {
 					const fileImg = await fetch(url,{mode: 'no-cors'}).then(r => r.blob());
-					var fileSize = fileImg.size();
+					var fileSize = fileImg.size;
 					var file_size_element = img[i].parentNode.querySelector('.file-size');
 					if (file_size_element) {
 						file_size_element.innerText=fileSize;
