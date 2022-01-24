@@ -562,30 +562,42 @@
 				calculateImageSize();
 			});
 			
-			calculateImageSize = async () => {
+			calculateImageSize = () => {
 				var imgElems = document.getElementsByTagName('img');
 				for ( var i=0, len = imgElems.length; i < len; i++ ) 
 				{
 					var url = imgElems[i].src || imgElems[i].href;
 					
-					console.log(imgElems[i].parentNode.querySelector('.file-size'));
+					//console.log(imgElems[i].parentNode.querySelector('.file-size'));
 					
 					if (url && url.length > 0)
 					{
+					
+					imgElems[i].addEventListener('load', imageLoaded)
+						imgElems[i].addEventListener('error', function() {
+						//alert('error');
+					})
 						//var iTime = performance.getEntriesByName(url)[0];
 						//console.log("ITime",iTime);
 						//console.log(iTime.transferSize); //or encodedBodySize, decodedBodySize
 						
-						const fileImg = await fetch(url).then(r => r.blob());
-						const fileSize = fileImg.size();
-						//console("url => ",fileImg.size());
-						var file_size_element = imgElems[i].parentNode.querySelector('.file-size')
-						if (file_size_element) {
-							file_size_element.innerText=fileSize;
-						}
 					}
 				}			
 			}
+			
+			imageLoaded = async (e) => {
+				var img = e;
+				var url = img.src;
+				console.log("ImageLaoded");
+				if (url && url.length > 0) {
+					const fileImg = await fetch(url).then(r => r.blob());
+					const fileSize = fileImg.size();
+					var file_size_element = img[i].parentNode.querySelector('.file-size')
+					if (file_size_element) {
+						file_size_element.innerText=fileSize;
+					}
+				}
+			};
 			
 		</script>
 	</body>
